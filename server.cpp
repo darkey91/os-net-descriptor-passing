@@ -70,7 +70,9 @@ ssize_t process_request(int fd) {
 
 int main(int argc, char* argv[]) {
 
-    unlink(SOCKET_NAME);
+    if (unlink(SOCKET_NAME) == -1) {
+        std::cerr << "unlink() failed: " << strerror(errno) << "\n Let's try anyway!\n";
+    };
 
     struct sockaddr_un sock_domain;
     memset(&sock_domain, 0, sizeof(sock_domain));
@@ -98,6 +100,10 @@ int main(int argc, char* argv[]) {
         close(client_fd);
     }
 
-    unlink(SOCKET_NAME);
+    if (unlink(SOCKET_NAME) == -1) {
+        std::cerr << "unlink() failed: " << strerror(errno) << "\n";
+    };
+
+    close(socket_fd);
     return 0;
 }
