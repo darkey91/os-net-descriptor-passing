@@ -63,6 +63,7 @@ ssize_t process_request(int fd) {
        if (got == -1 || !send(fd, buffer, got)) {
             return -1;
        }
+       std::cout << "success\n";
        size += got;
    }
    return size;
